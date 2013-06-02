@@ -1,0 +1,1 @@
+exports.tiebaIndex = require('./tiebaIndex');

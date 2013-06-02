@@ -4,7 +4,33 @@ var util = require("util");
 var events = require("events");
 var cheerio = require('cheerio');
 
+var Article = require('./pipe').Article;
+var async = require('async');
+
+
+var NodeSpider = require('./lib/nodeSpider');
+
+//var nodeSpider = new NodeSpider();
+
+
+function TiebaSpider(){
+	NodeSpider.call(this);
+	//return this
+}
+
+util.inherits(TiebaSpider, NodeSpider);
+
+
+var url = 'http://tieba.baidu.com/f?kw=%E5%8D%8E%E5%8D%97%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6'
+
+var tiebaSpider = new TiebaSpider()
+tiebaSpider.start_request(url)
+
 //privite
+
+
+/*
+
 var _request = function(url, args, callback){
 	var _headers = {
 		'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
@@ -28,10 +54,14 @@ util.inherits(NodeSpider, events.EventEmitter);
 var p = NodeSpider.prototype
 
 p.start_request = function(url){
+
 	this.emit("download", url);
+
 }
 
 var spider = new NodeSpider();
+
+
 
 spider.on("download", function(url){
 	var self = this;
@@ -48,7 +78,10 @@ spider.on("download", function(url){
 
 });
 
+
+
 spider.on('parse', function(response){
+	console.log(response);
 	var self = this;
 	var $ = cheerio.load(response); 
 
@@ -69,15 +102,46 @@ spider.on('error', function(err){
 	console.log(err);
 })
 
+
+
 spider.on('pipe', function(items){
-	console.log(items);
+	var self = this;
+
+	async.forEach(items, function(item, callback){
+		var url = item.path.split('/')[2]
+		var where = {
+			url: url
+		}
+
+		Article.getArticle(url, function(err, article){
+			if(err) return callback(err);
+
+			if(!article) {
+				var newArticle = {
+					title: item.title,
+					url: url
+				};
+
+				return Article.createArticle(newArticle, callback);
+			} 
+
+			return callback(null);
+
+		})
+
+	},function(err){
+		if(err) {
+			return self.emit('error', err);
+		}
+	});
+
 })
 
 
 
 var url = 'http://tieba.baidu.com/f?kw=%E5%8D%8E%E5%8D%97%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6'
 spider.start_request(url);
-
+*/
 
 /*
 var headers = {
