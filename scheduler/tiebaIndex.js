@@ -20,23 +20,16 @@ p.on('download', Downloader.download);
 p.on('parse', Spider.parse);
 p.on('pipe', ItemPipe.pipe);
 
+
+module.exports = TiebaIndexSpider;
+
+//exports.TiebaIndexSpider = TiebaIndexSpider;
+
+/*
 var indexSpider = new TiebaIndexSpider()
 
 
 var url = 'http://tieba.baidu.com/f?kw=%E5%B9%BF%E4%B8%9C%E5%B7%A5%E4%B8%9A%E5%A4%A7%E5%AD%A6'
 
-indexSpider.start_request(url)
+indexSpider.start_request(url)*/
 
-//var tiebaSpider = new tiebaIndexSpider()
-
-
-//var p = tiebaSpider.prototype
-
-//var p = TiebaSpider.prototype;
-//tiebaSpider.start_request(url)
-
-/*
-p.start_request = function(url){
-	spider.start_request()
-};*/
-//tiebaSpider.start_request(url)

@@ -1,3 +1,27 @@
+var async = require('async');
+var tiebaIndex = require('./scheduler/tiebaIndex');
+
+
+var task = [tiebaIndex]
+
+async.forEachSeries(task, function(fn ,callback){
+	if( typeof(fn) == 'function'){
+		f  = new fn();
+		f.start_request()	
+	}
+	callback(null);
+},function(err){
+	console.log('fin');
+});
+
+
+/*
+
+var spider = new tiebaIndex()
+spider.start_request()
+*/
+
+/*
 var urllib = require('urllib');
 var iconv = require('iconv-lite');
 var util = require("util");
@@ -6,8 +30,9 @@ var cheerio = require('cheerio');
 
 var Article = require('./pipe').Article;
 var async = require('async');
+*/
 
-
+/*
 var NodeSpider = require('./lib/nodeSpider');
 
 //var nodeSpider = new NodeSpider();
@@ -25,7 +50,7 @@ var url = 'http://tieba.baidu.com/f?kw=%E5%8D%8E%E5%8D%97%E7%90%86%E5%B7%A5%E5%A
 
 var tiebaSpider = new TiebaSpider()
 tiebaSpider.start_request(url)
-
+*/
 //privite
 
 
